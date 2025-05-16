@@ -17,6 +17,10 @@ An AI-powered software for face detection in videos with interactive features!
 - 🖼️ گالری تصاویر با پیش‌نمایش و برچسب زمانی  
 - 🚀 پردازش سریع با استفاده از **YOLOv8** و پشتیبانی از GPU
 
+### دموی نرم افزار تشخیص چهره انسان
+<div style="position: relative; display: block; height: 0; padding: 0; padding-bottom: 56.25%;"><iframe src="https://www.namasha.com/embed/Y6h35bq8" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" frameborder="0" scrolling="no" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe></div>
+
+
 ### 🇬🇧 English
 - 🎥 Smart video playback with fullscreen support  
 - ⏱️ Jump to specific timestamps by clicking thumbnails  

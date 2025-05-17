@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, ttk, messagebox
+from tkinter import filedialog, ttk, messagebox, Toplevel
 from PIL import Image, ImageTk, ImageDraw, ImageFont
 import cv2
 from ultralytics import YOLO
@@ -10,6 +10,41 @@ import torch
 import atexit
 import shutil
 import queue
+import sys
+import time
+
+# Splash Screen Implementation
+def show_splash(root, duration=2):
+    splash = Toplevel(root)
+    splash.overrideredirect(True)
+    splash.geometry("400x300+%d+%d" % (
+        (root.winfo_screenwidth() - 400) // 2,
+        (root.winfo_screenheight() - 300) // 2
+    ))
+    
+    try:
+        # Path management for bundled app
+        if getattr(sys, 'frozen', False):
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.dirname(__file__)
+            
+        img_path = os.path.join(base_path, "splash.jpg")
+        img = Image.open(img_path)
+    except Exception as e:
+        # Create default image if splash.jpg not found
+        img = Image.new('RGB', (400, 300), color=(73, 109, 137))
+        d = ImageDraw.Draw(img)
+        d.text((100, 140), "Face Detection App", fill=(255, 255, 255), font=ImageFont.truetype("arial.ttf", 20))
+    
+    img = img.resize((400, 300))
+    photo = ImageTk.PhotoImage(img)
+    label = tk.Label(splash, image=photo)
+    label.image = photo
+    label.pack()
+    
+    splash.after(int(duration*1000), splash.destroy)
+    return splash
 
 class VideoPlayer:
     def __init__(self, parent, video_path):
@@ -103,6 +138,11 @@ class FaceDetectionApp:
         self.thumbnails = []
         self.video_path = ""
         self.current_video_player = None
+        
+        self.total_frames = 0
+        self.processed_frames = 0
+        self.progress_var = tk.StringVar()
+        self.status_var = tk.StringVar()
 
         self.setup_ui()
         self.root.after(100, self.process_queue)
@@ -140,6 +180,9 @@ class FaceDetectionApp:
         self.btn_stop = ttk.Button(control_frame, text="توقف", state=tk.DISABLED, command=self.stop_processing)
         self.btn_stop.pack(side=tk.LEFT, padx=5)
 
+        self.progress_label = ttk.Label(control_frame, textvariable=self.progress_var)
+        self.progress_label.pack(side=tk.RIGHT, padx=10)
+
         self.canvas = tk.Canvas(self.gallery_frame, bg='#2e2e2e')
         self.scrollbar = ttk.Scrollbar(self.gallery_frame, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = ttk.Frame(self.canvas)
@@ -151,7 +194,6 @@ class FaceDetectionApp:
         self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
         self.scrollable_frame.bind("<Configure>", self.update_scrollregion)
 
-        self.status_var = tk.StringVar()
         status_bar = ttk.Label(self.root, textvariable=self.status_var, relief=tk.SUNKEN)
         status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
@@ -180,7 +222,13 @@ class FaceDetectionApp:
     def select_video(self):
         self.video_path = filedialog.askopenfilename(filetypes=[("Video Files", "*.mp4 *.avi *.mov *.mkv")])
         if self.video_path:
-            self.status_var.set(f"Selected: {os.path.basename(self.video_path)}")
+            cap = cv2.VideoCapture(self.video_path)
+            self.total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+            cap.release()
+            
+            self.status_var.set(f"Selected: {os.path.basename(self.video_path)} | Total frames: {self.total_frames}")
+            self.progress_var.set("Progress: 0.0% (0/0)")
+            
             if self.current_video_player:
                 self.current_video_player.main_frame.destroy()
             self.current_video_player = VideoPlayer(self.video_container, self.video_path)
@@ -196,6 +244,9 @@ class FaceDetectionApp:
             messagebox.showwarning("Warning", "Please select a video file first!")
             return
 
+        self.processed_frames = 0
+        self.progress_var.set("Progress: 0.0% (0/0)")
+
         self.output_dir = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         os.makedirs(self.output_dir, exist_ok=True)
         os.makedirs(self.temp_dir, exist_ok=True)
@@ -210,23 +261,36 @@ class FaceDetectionApp:
         cap = cv2.VideoCapture(self.video_path)
         frame_count = 0
 
-        while cap.isOpened() and not self.stop_event.is_set():
-            ret, frame = cap.read()
-            if not ret:
-                break
+        try:
+            while cap.isOpened() and not self.stop_event.is_set():
+                ret, frame = cap.read()
+                if not ret:
+                    break
 
-            results = self.model.predict(frame, conf=0.5, device=self.device, verbose=False)
-            if len(results[0].boxes) > 0:
-                timestamp = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
-                filepath = os.path.join(self.output_dir, f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{timestamp:.2f}s.jpg")
-                cv2.imwrite(filepath, frame)
-                self.frame_queue.put((frame.copy(), filepath, timestamp))
-            frame_count += 1
-            self.status_var.set(f"Processed: {frame_count} frames")
+                results = self.model.predict(frame, conf=0.5, device=self.device, verbose=False)
+                if len(results[0].boxes) > 0:
+                    timestamp = cap.get(cv2.CAP_PROP_POS_MSEC) / 1000
+                    filepath = os.path.join(self.output_dir, f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{timestamp:.2f}s.jpg")
+                    cv2.imwrite(filepath, frame)
+                    self.frame_queue.put((frame.copy(), filepath, timestamp))
+                
+                frame_count += 1
+                progress_percent = (frame_count / self.total_frames) * 100 if self.total_frames > 0 else 0
+                progress_text = f"Progress: {progress_percent:.1f}% ({frame_count}/{self.total_frames})"
+                
+                self.root.after(10, lambda: [
+                    self.progress_var.set(progress_text),
+                    self.status_var.set(progress_text)
+                ])
 
-        cap.release()
-        self.status_var.set(f"Completed! Saved in '{self.output_dir}'")
-        self.stop_event.set()
+        finally:
+            cap.release()
+            self.root.after(10, lambda: [
+                self.status_var.set(f"Completed! {frame_count}/{self.total_frames} frames processed"),
+                self.btn_process.config(state=tk.NORMAL),
+                self.btn_stop.config(state=tk.DISABLED)
+            ])
+            self.stop_event.set()
 
     def process_queue(self):
         try:
@@ -262,15 +326,10 @@ class FaceDetectionApp:
 
     def play_from_timestamp(self, timestamp):
         if self.current_video_player:
-            # Stop current playback and release resources
             self.current_video_player.stop_video()
-            
-            # Reset video capture with new position
             self.current_video_player.cap = cv2.VideoCapture(self.video_path)
             self.current_video_player.cap.set(cv2.CAP_PROP_POS_MSEC, timestamp * 1000)
-            
-            # Allow time for the capture to settle
-            self.root.after(100, lambda: self.start_playback())
+            self.root.after(100, self.start_playback)
 
     def start_playback(self):
         if self.current_video_player:
@@ -287,8 +346,24 @@ class FaceDetectionApp:
         self.stop_event.set()
         self.btn_process.config(state=tk.NORMAL)
         self.btn_stop.config(state=tk.DISABLED)
+        self.status_var.set("Processing stopped by user")
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = FaceDetectionApp(root)
+    root.withdraw()  # Hide main window
+    
+    # Show splash screen
+    splash = show_splash(root, duration=2)
+    
+    # Background initialization
+    def init_app():
+        # Initialize heavy resources
+        app = FaceDetectionApp(root)
+        root.deiconify()  # Show main window
+        splash.destroy()
+    
+    # Start initialization thread
+    init_thread = threading.Thread(target=init_app, daemon=True)
+    init_thread.start()
+    
     root.mainloop()

@@ -19,18 +19,6 @@ An AI-powered software for face detection in videos with interactive features!
 
 
 ## 📽️ دموی نرم افزار - Software Demo  
-<div align="center" style="margin: 20px 0;">
-  <iframe 
-    width="800" 
-    height="450" 
-    src="https://www.namasha.com/embed/Y6h35bq8" 
-    frameborder="0" 
-    allowfullscreen
-    style="border: 1px solid #e1e4e8; border-radius: 6px;"
-  >
-  </iframe>
-</div>
-
 [▶️ تماشای دمو در Namasha](https://www.namasha.com/v/Y6h35bq8)
 
 ### 🇬🇧 English

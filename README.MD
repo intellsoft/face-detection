@@ -3,8 +3,7 @@
 یک نرم افزار مبتنی بر هوش مصنوعی برای شناسایی چهره در ویدیوها با قابلیتهای تعاملی جذاب!  
 An AI-powered software for face detection in videos with interactive features!
 
-
-![Advanced Face Detection Tool - ابزار پیشرفته تشخیص چهره](https://intellsoft.ir/%d9%86%d8%b1%d9%85%d8%a7%d9%81%d8%b2%d8%a7%d8%b1-%d8%aa%d8%b4%d8%ae%db%8c%d8%b5-%da%86%d9%87%d8%b1%d9%87-%d9%87%d9%88%d8%b4%d9%85%d9%86%d8%af%d8%8c-%d8%aa%d8%ad%d9%88%d9%84%db%8c-%d8%af%d8%b1/)
+![Advanced Face Detection Tool - ابزار پیشرفته تشخیص چهره](https://lh3.googleusercontent.com/d/1fvhaaOt90ssTWTIjbZpX0k4CwkBbS_UB)
 
 ---
 

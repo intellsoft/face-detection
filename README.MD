@@ -49,6 +49,11 @@ An AI-powered software for face detection in videos with interactive features!
 
 ---
 
+## برنامه نویس: محمدعلی عباسپور
+[نرم افزار رایگان تشخیص چهره انسان در فیلم](https://intellsoft.ir/intelligent-face-detection-software/)
+
+---
+
 ## 📜 مجوز - License  
 این پروژه تحت مجوز [MIT](LICENSE) منتشر شده است  
 This project is licensed under the [MIT License](LICENSE)

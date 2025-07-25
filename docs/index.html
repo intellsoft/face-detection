@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ابزار پیشرفته تشخیص چهره - هوش مصنوعی</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.7;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #ff7b00, #ff5500);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        h2 {
+            color: #ff5500;
+            border-bottom: 2px solid #ff7b00;
+            padding-bottom: 10px;
+            margin: 35px 0 20px;
+            font-size: 26px;
+        }
+        .section-box {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border: 1px solid #eaeaea;
+        }
+        .step-box {
+            background: #fff4e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #ff7b00;
+        }
+        .step-number {
+            background: #ff7b00;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .important-note {
+            background: #fff8e6;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            font-size: 18px;
+        }
+        .btn {
+            display: inline-block;
+            background: #ff7b00;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 15px 0;
+            transition: all 0.3s;
+            font-size: 18px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            background: #ff5500;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .btn-download {
+            background: #ff7b00;
+            font-size: 20px;
+            padding: 16px 35px;
+        }
+        .btn-download:hover {
+            background: #ff5500;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 16px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            background: #fff4e6;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #ff7b00;
+        }
+        .use-cases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .use-case {
+            background: #fff4e6;
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1;
+            min-width: 200px;
+            border-left: 3px solid #ff7b00;
+        }
+        .demo-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .demo-btn {
+            display: inline-block;
+            background: #ff7b00;
+            color: white;
+            padding: 15px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .demo-btn:hover {
+            background: #ff5500;
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            .subtitle {
+                font-size: 18px;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>👁️ ابزار پیشرفته تشخیص چهره</h1>
+        <p class="subtitle">نرم‌افزار مبتنی بر هوش مصنوعی برای شناسایی چهره در ویدیوها</p>
+        <a href="https://github.com/intellsoft/face-detection/releases/latest" class="btn btn-download">دانلود آخرین نسخه</a>
+    </header>
+
+    <section class="section-box">
+        <h2>نرم‌افزار تشخیص چهره چیست؟</h2>
+        <p>این نرم‌افزار با استفاده از هوش مصنوعی پیشرفته، چهره افراد را در ویدیوها شناسایی می‌کند. با این ابزار می‌توانید:</p>
+        <ul style="padding-right: 20px; margin-top: 15px;">
+            <li>چهره افراد را در ویدیوها به صورت خودکار تشخیص دهید</li>
+            <li>فریم‌های حاوی چهره را ذخیره کنید</li>
+            <li>به زمان‌های مشخص در ویدیو پرش کنید</li>
+            <li>گزارش تصویری از چهره‌های شناسایی شده تهیه کنید</li>
+        </ul>
+    </section>
+
+    <section class="section-box">
+        <h2>ویژگی‌های اصلی</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎥</div>
+                <h3>پخش هوشمند</h3>
+                <p>پخش ویدیو با قابلیت تمام‌صفحه و کنترل پیشرفته</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏱️</div>
+                <h3>پرش زمانی</h3>
+                <p>پرش به زمان مشخص در ویدیو با کلیک روی تصویر</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📸</div>
+                <h3>ذخیره خودکار</h3>
+                <p>ذخیره خودکار فریم‌های حاوی چهره</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>پردازش سریع</h3>
+                <p>استفاده از مدل YOLOv8 با پشتیبانی GPU</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box">
+        <h2>کاربردهای نرم‌افزار</h2>
+        <div class="use-cases">
+            <div class="use-case">
+                <h4>🔒 نظارت امنیتی</h4>
+                <p>شناسایی افراد در ویدیوهای دوربین‌های مداربسته</p>
+            </div>
+            <div class="use-case">
+                <h4>📊 تحقیقات</h4>
+                <p>تحلیل ویدیوها برای تحقیقات پزشکی قانونی</p>
+            </div>
+            <div class="use-case">
+                <h4>👥 مدیریت حضور</h4>
+                <p>ثبت حضور افراد در جلسات و رویدادها</p>
+            </div>
+            <div class="use-case">
+                <h4>📁 آرشیو تصاویر</h4>
+                <p>ساخت بانک اطلاعاتی از چهره‌های شناسایی شده</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box">
+        <h2>نمونه عملکرد نرم‌افزار</h2>
+        <div class="demo-container">
+            <a href="https://www.namasha.com/v/Y6h35bq8" class="demo-btn">▶️ تماشای دموی نرم‌افزار</a>
+        </div>
+    </section>
+
+    <section class="section-box">
+        <h2>راهنمای استفاده</h2>
+        
+        <div class="step-box">
+            <h3><span class="step-number">1</span> انتخاب ویدیو</h3>
+            <p>پس از اجرای نرم‌افزار، ویدیوی مورد نظر را انتخاب کنید</p>
+        </div>
+        
+        <div class="step-box">
+            <h3><span class="step-number">2</span> شروع پردازش</h3>
+            <p>روی دکمه «شروع پردازش» کلیک کنید تا فرآیند تشخیص چهره آغاز شود</p>
+        </div>
+        
+        <div class="step-box">
+            <h3><span class="step-number">3</span> بررسی نتایج</h3>
+            <p>چهره‌های شناسایی شده را در گالری تصاویر مشاهده کنید</p>
+        </div>
+        
+        <a href="https://github.com/intellsoft/face-detection/releases/latest" class="btn btn-download">دانلود نرم‌افزار</a>
+    </section>
+
+    <section class="section-box">
+        <h2>دانلود و نصب</h2>
+        <p>برای استفاده از نرم‌افزار، آخرین نسخه را از لینک زیر دانلود کنید:</p>
+        <div style="text-align: center; margin: 25px 0;">
+            <a href="https://github.com/intellsoft/face-detection/releases/latest" class="btn btn-download">دانلود آخرین نسخه</a>
+        </div>
+        <p>پس از دانلود، فایل اجرایی را باز کنید. نیاز به نصب ندارد و قابل اجرا از هر مسیری است.</p>
+    </section>
+
+    <section class="section-box">
+        <h2>پشتیبانی</h2>
+        <p>در صورت نیاز به راهنمایی یا گزارش مشکل:</p>
+        <p>📧 ایمیل: <a href="mailto:support@intellsoft.ir">support@intellsoft.ir</a></p>
+        <p>🌐 وبسایت: <a href="https://intellsoft.ir">intellsoft.ir</a></p>
+    </section>
+
+    <footer>
+        <p>© 2023 ابزار تشخیص چهره - توسعه یافته توسط تیم اینتل سافت</p>
+        <p>کلیه حقوق این نرم‌افزار محفوظ است</p>
+    </footer>
+</body>
+</html>

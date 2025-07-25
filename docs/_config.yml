@@ -1,0 +1,67 @@
+# _config.yml
+
+# تنظیمات اصلی سایت
+title: ابزار پیشرفته تشخیص چهره
+description: نرم‌افزار مبتنی بر هوش مصنوعی برای شناسایی چهره در ویدیوها
+baseurl: "" 
+url: "https://intellsoft.github.io/face-detection" 
+lang: "fa-IR"
+direction: rtl
+timezone: Asia/Tehran
+
+# مشخصات مالک
+author:
+  name: محمدعلی عباسپور
+  email: support@intellsoft.ir
+  url: https://intellsoft.ir
+
+# تنظیمات ساخت
+theme: jekyll-theme-minimal
+
+# تنظیمات سفارشی
+primary_color: "#ff7b00"  # رنگ اصلی نارنجی
+secondary_color: "#ff5500" # رنگ دوم نارنجی تیره
+github_repo: "https://github.com/intellsoft/face-detection"
+demo_url: "https://www.namasha.com/v/Y6h35bq8"
+
+# ویژگی‌های نرم‌افزار
+features:
+  - title: پخش هوشمند
+    icon: 🎥
+    description: پخش ویدیو با قابلیت تمام‌صفحه و کنترل پیشرفته
+  - title: پرش زمانی
+    icon: ⏱️
+    description: پرش به زمان مشخص در ویدیو با کلیک روی تصویر
+  - title: ذخیره خودکار
+    icon: 📸
+    description: ذخیره خودکار فریم‌های حاوی چهره
+  - title: پردازش سریع
+    icon: 🚀
+    description: استفاده از مدل YOLOv8 با پشتیبانی GPU
+
+# کاربردها
+use_cases:
+  - title: نظارت امنیتی
+    icon: 🔒
+    description: شناسایی افراد در ویدیوهای دوربین‌های مداربسته
+  - title: تحقیقات
+    icon: 📊
+    description: تحلیل ویدیوها برای تحقیقات پزشکی قانونی
+  - title: مدیریت حضور
+    icon: 👥
+    description: ثبت حضور افراد در جلسات و رویدادها
+  - title: آرشیو تصاویر
+    icon: 📁
+    description: ساخت بانک اطلاعاتی از چهره‌های شناسایی شده
+
+# تنظیمات SEO
+seo:
+  title: ابزار تشخیص چهره | هوش مصنوعی
+  description: نرم‌افزار پیشرفته تشخیص چهره در ویدیوها با قابلیت ذخیره فریم‌ها
+  keywords: 
+    - "نرم افزار تشخیص چهره"
+    - "تشخیص چهره در ویدیو"
+    - "هوش مصنوعی تشخیص چهره"
+    - "ابزار تحلیل چهره"
+    - "ذخیره فریم‌های چهره"
+    - "yolov8 تشخیص چهره"
